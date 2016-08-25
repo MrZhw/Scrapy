@@ -9,7 +9,7 @@ class TestSpider(scrapy.Spider):
 	name = "test"
 
 	start_urls = [
-		"http://www.shicimingju.com/chaxun/list/22149.html"
+		"http://www.shicimingju.com/chaxun/list/20697.html"
 	]
 	def parse(self, response):
 		soup = BeautifulSoup(response.body_as_unicode(),"lxml")
@@ -25,7 +25,7 @@ class TestSpider(scrapy.Spider):
 			category = u''
 		content = main.find(class_='shicineirong')
 		shangxi = main.find(class_='shangxi')
-		if shangxi.find('h3').getText() == u'作品赏析':
+		if shangxi and shangxi.find('h3').getText() == u'作品赏析':
 			shangxi = shangxi.getText().strip().replace('\xc2\xa0','')[4:-96]
 		else:
 			shangxi = u''

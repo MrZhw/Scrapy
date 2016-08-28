@@ -74,6 +74,30 @@ class PoemPipeline(object):
 	def handle_error(self, failure):
 		logging.error(failure)
 
+class StarPipeline(object):
+	def __init__(self):
+		self.dbpool = adbapi.ConnectionPool('MySQLdb',
+			db='knowledgebase',
+			user='root',
+			passwd='mysql',
+			cursorclass = MySQLdb.cursors.DictCursor,
+			charset = 'utf8',
+			use_unicode = True
+		)
+
+	def process_item(self, item, spider):
+		query = self.dbpool.runInteraction(self._conditional_insert, item)
+		query.addErrback(self.handle_error)
+		return item
+
+	def _conditional_insert(self, tx, item):
+		sql = "insert into star(url, chinese_name, english_name, used_name, nation, location, birthday, birthplace, height, weight, bloodType, constellation, graduateSchool, profession, company, representative, relatedStar, microblog, personal) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+		tx.execute(sql, (item['url'], item['chinese_name'], item['english_name'], item['used_name'], item['nation'], item['location'], item['birthday'], item['birthplace'], item['height'], item['weight'], item['bloodType'], item['constellation'], item['graduateSchool'], item['profession'], item['company'], item['representative'], item['relatedStar'], item['microblog'], item['personal']))
+
+	#异常处理
+	def handle_error(self, failure):
+		logging.error(failure)
+		
 # class JsonWithEncodingCnblogsPipeline(object):
 #     def __init__(self):
 #         self.file = codecs.open('cnblogs.json', 'w', encoding='utf-8')

@@ -97,7 +97,33 @@ class StarPipeline(object):
 	#异常处理
 	def handle_error(self, failure):
 		logging.error(failure)
-		
+
+class AnimalPipeline(object):
+	def __init__(self):
+		self.dbpool = adbapi.ConnectionPool('MySQLdb',
+			db='knowledgebase',
+			user='root',
+			passwd='mysql',
+			cursorclass = MySQLdb.cursors.DictCursor,
+			charset = 'utf8',
+			use_unicode = True
+		)
+
+	def process_item(self, item, spider):
+		query = self.dbpool.runInteraction(self._conditional_insert, item)
+		query.addErrback(self.handle_error)
+		return item
+
+	def _conditional_insert(self, tx, item):
+		# sql = "insert into star(url,category,chinese_name,pingyin,english_name,scientific_name,introduction,jie,men,gang,mu,ke,shu,zhong,length,height,weight,life,feeding,breed,habit,location,ecologicalHabit,growthBreed,subspeciesTaxonomy,knowledge,description,distribution,livingCondition,englishIntroduction,) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+		# tx.execute(sql, (item['url'],item['category'],item['chinese_name'],item['pingyin'],item['english_name'],item['scientific_name'],item['introduction'],item['jie'],item['men'],item['gang'],item['mu'],item['ke'],item['shu'],item['zhong'],item['length'],item['height'],item['weight'],item['life'],item['feeding'],item['breed'],item['habit'],item['location'],item['ecologicalHabit'],item['growthBreed'],item['subspeciesTaxonomy'],item['knowledge'],item['description'],item['distribution'],item['livingCondition'],item['englishIntroduction']))
+		sql = "insert into animal(url,category,chinese_name,english_name,scientific_name,introduction,length,height,weight,life,feeding,breed,habit,location,ecologicalHabit,growthBreed,subspeciesTaxonomy,knowledge,description,distribution,livingCondition,englishIntroduction,information) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+		tx.execute(sql, (item['url'],item['category'],item['chinese_name'],item['english_name'],item['scientific_name'],item['introduction'],item['length'],item['height'],item['weight'],item['life'],item['feeding'],item['breed'],item['habit'],item['location'],item['ecologicalHabit'],item['growthBreed'],item['subspeciesTaxonomy'],item['knowledge'],item['description'],item['distribution'],item['livingCondition'],item['englishIntroduction'],item['information']))
+
+	#异常处理
+	def handle_error(self, failure):
+		logging.error(failure)
+
 # class JsonWithEncodingCnblogsPipeline(object):
 #     def __init__(self):
 #         self.file = codecs.open('cnblogs.json', 'w', encoding='utf-8')

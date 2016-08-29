@@ -1,5 +1,5 @@
-import os
+# -*- coding:utf-8 -*-
+import os,re
 
-s='Â ä¸‹ä¸€é¡µÂ '
-t = 'ä¸‹ä¸€é¡µ'
+s = 'ÎïÖÖ¸ÅÊöSummaryÖÐÎÄÃû£º±âÌåèÎ³Ý´ÌÎ²Óã£¨Æ´Òô£ºbi¨£n t¨« zh¨¬ ch¨« c¨¬ w¨§i y¨²£©£»Ó¢ÎÄÃû£ºSpotted surgeonfish£»Ñ§Ãû£ºCtenochaetus strigosus¡£±âÌåèÎ³Ý´ÌÎ²Óã£¬È«³¤12-15ÀåÃ×¡£·Ö²¼ÓÚÖÐ¶«Ì«Æ½ÑóµÄÏÄÍþÒÄÈºµº¼°Ô¼º²Ë¹¶Ùµºº£Óò£¬ÆÜÏ¢Éî¶È1-113Ã×£¬ÆÜÏ¢ÔÚ½¸Ê¯Çø£¬µ¥¶À»î¶¯¡£ÒÔÔåÀàÎªÊ³£¬ÓëÂÌº£¹ê´æÔÚ¹²Éú¹ØÏµ£¬¸ºÔðÆäÇåÀí¡£ÓÐÑ©¿¨ÓãÖÐ¶¾µÄ±¨¸æ¡£ÊÀ½ç×ÔÈ»±£»¤ÁªÃËºìÉ«ÃûÂ¼ÁÐÎª£ºÎ´ÓèÆÀ¹À'
 print s

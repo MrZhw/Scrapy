@@ -59,8 +59,8 @@ COOKIES_ENABLED = False
 DOWNLOADER_MIDDLEWARES = {
 #    'cnblogs.middlewares.MyCustomDownloaderMiddleware': 543,
     'spiders.middlewares.RandomUserAgent': 1,
-    'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 110,
-    #'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
+    #'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 110,
+    'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
     #'spiders.middlewares.ProxyMiddleware': 100,
 }
 
@@ -133,5 +133,6 @@ ITEM_PIPELINES = {
 	#"spiders.pipelines.JsonWithEncodingCnblogsPipeline": 300,
 	#'spiders.pipelines.ChengyuPipeline': 300,
 	#'spiders.pipelines.PoemPipeline': 300,
-	'spiders.pipelines.StarPipeline': 300,
+	#'spiders.pipelines.StarPipeline': 300,
+    'spiders.pipelines.AnimalPipeline': 300,
 }

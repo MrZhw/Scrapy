@@ -25,7 +25,6 @@ class animalSpider(scrapy.Spider):
 
 	def parse_animal(self, response):
 		category = response.meta['cate']
-		print category
 		soup = BeautifulSoup(response.body_as_unicode(),"lxml")
 		founds = soup.find(class_='info-list').find_all(class_='image-wrap')
 		for found in founds:
@@ -45,10 +44,14 @@ class animalSpider(scrapy.Spider):
 					url = "" + url
 				yield scrapy.Request(url, meta={'cate':category}, callback=self.parse_animal)
 
+			if nextUrl.getText().replace('\xc2\xa0','').replace(u'　','') == u'››':
+				url = nextPages[len(nextPages) - 2].get('href')
+				if 'http' not in url:
+					url = "" + url
+				yield scrapy.Request(url, meta={'cate':category}, callback=self.parse_animal)
+
 	def parse_detail(self, response):
 		category = response.meta['cate']
-		print category
-
 		item = AnimalSpidersItem()
 		item['category'] = category[0]
 		# item = response.meta['item']
@@ -69,10 +72,10 @@ class animalSpider(scrapy.Spider):
 		line2 = lines[1].replace('<strong>','').replace('</strong>','').replace('<em>','').replace('</em>','').split(u'：')
 		line3 = lines[2].replace('<strong>','').replace('</strong>','').replace('<em>','').replace('</em>','').split(u'：')
 		line4 = lines[3].replace('<strong>','').replace('</strong>','').replace('<em>','').replace('</em>','')
-		item['chinese_name'] = line1[1].split(u'（')[0]
+		item['chinese_name'] = line1[1].split(u'（')[0].replace(u'；',u'').replace(u'。',u'')
 		#item['pingyin'] = line1[2].split(u'）')[0]
-		item['english_name'] = line2[1]
-		item['scientific_name'] = line3[1]
+		item['english_name'] = line2[1].replace(u'；',u'').replace(u'。',u'')
+		item['scientific_name'] = line3[1].replace(u'；',u'').replace(u'。',u'')
 		item['introduction'] = line4
 
 		right_wrap = inner_wrap.find(class_='right-wrap')
@@ -121,5 +124,3 @@ class animalSpider(scrapy.Spider):
 				item['information'] = description[x].getText()
 
 		return item
-
-

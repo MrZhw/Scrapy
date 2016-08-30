@@ -9,20 +9,33 @@ import MySQLdb
 import MySQLdb.cursors
 import codecs
 import logging
-from scrapy .http import Request
-from scrapy.pipelines.images import ImagesPipeline
 from scrapy.exceptions import DropItem
 import socket,sys,os
-from items import ChengyuSpidersItem
-
+from scrapy.http import Request
+from scrapy.pipelines.images import ImagesPipeline
+from scrapy.pipelines.files import FilesPipeline, FSFilesStore, S3FilesStore
 class SpidersPipeline(object):
 	def process_item(self, item, spider):
 		return item 	
 
-# class ChengyuPipeline(object):
-# 	"""docstring for ChengyuPipeline"""
-# 	def __init__(self):
-		
+class ZimuFilesPipeline(FilesPipeline):
+	# def file_path(self, request, response=None, info=None):
+		# file_guid = request.url.split('/')[-1]
+		# return 'full/%s' % (file_guid)
+		# for file_name in item['file_names']:
+		# 	return file_name
+	
+	def get_media_requests(self, item, info):
+		for file_url in item['file_urls']:
+			yield Request(file_url)
+
+	def item_completed(self, results, item, info):
+		file_paths = [x['path'] for ok, x in results if ok]
+		if not file_paths:
+			raise DropItem("Item contains no files")
+		item['file_paths'] = file_paths
+		return item
+	
 		
 class ChengyuPipeline(object):
 	"""docstring for ChengyuPipeline"""

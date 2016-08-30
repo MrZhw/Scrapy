@@ -19,7 +19,7 @@ NEWSPIDER_MODULE = 'spiders.spiders'
 #USER_AGENT = 'spiders (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+# ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -27,13 +27,13 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 1.5
+#DOWNLOAD_DELAY = 1.5
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-COOKIES_ENABLED = False
+#COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
@@ -58,10 +58,11 @@ COOKIES_ENABLED = False
 # }
 DOWNLOADER_MIDDLEWARES = {
 #    'cnblogs.middlewares.MyCustomDownloaderMiddleware': 543,
-    'spiders.middlewares.RandomUserAgent': 1,
+    'spiders.middlewares.RandomUserAgent': 2,
     #'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 110,
     'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
     #'spiders.middlewares.ProxyMiddleware': 100,
+    'scrapy.pipelines.files.FilesPipeline': 1,
 }
 
 USER_AGENTS = [
@@ -134,5 +135,8 @@ ITEM_PIPELINES = {
 	#'spiders.pipelines.ChengyuPipeline': 300,
 	#'spiders.pipelines.PoemPipeline': 300,
 	#'spiders.pipelines.StarPipeline': 300,
-    'spiders.pipelines.AnimalPipeline': 300,
+    #'spiders.pipelines.AnimalPipeline': 300,
+    'spiders.pipelines.ZimuFilesPipeline': 1,
 }
+
+FILES_STORE = 'E:\qihao\download_test'

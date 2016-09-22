@@ -58,7 +58,11 @@ NEWSPIDER_MODULE = 'spiders.spiders'
 # }
 DOWNLOADER_MIDDLEWARES = {
 #    'cnblogs.middlewares.MyCustomDownloaderMiddleware': 543,
+<<<<<<< HEAD
     'spiders.middlewares.RandomUserAgent': 2,
+=======
+    'spiders.middlewares.RandomUserAgent': 1,
+>>>>>>> 38d197371eb5b45637dd42c842bdbd9cdc731079
     #'scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware': 110,
     'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
     #'spiders.middlewares.ProxyMiddleware': 100,
@@ -135,6 +139,7 @@ ITEM_PIPELINES = {
 	#'spiders.pipelines.ChengyuPipeline': 300,
 	#'spiders.pipelines.PoemPipeline': 300,
 	#'spiders.pipelines.StarPipeline': 300,
+<<<<<<< HEAD
     #'spiders.pipelines.AnimalPipeline': 300,
     #'spiders.pipelines.ZimuFilesPipeline': 1,
     #'spiders.pipelines.PlantPipeline': 300,
@@ -142,3 +147,7 @@ ITEM_PIPELINES = {
 }
 
 FILES_STORE = 'E:\qihao\download_test'
+=======
+    'spiders.pipelines.AnimalPipeline': 300,
+}
+>>>>>>> 38d197371eb5b45637dd42c842bdbd9cdc731079

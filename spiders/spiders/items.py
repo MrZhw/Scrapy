@@ -81,6 +81,7 @@ class AnimalSpidersItem(scrapy.Item):
 	distribution = scrapy.Field()
 	livingCondition = scrapy.Field()
 	englishIntroduction = scrapy.Field()
+<<<<<<< HEAD
 	information = scrapy.Field()
 
 class PlantSpidersItem(scrapy.Item):
@@ -107,3 +108,6 @@ class ZimuSpidersItem(scrapy.Item):
 	file_urls = scrapy.Field()
 	files = scrapy.Field()
 	file_paths = scrapy.Field()
+=======
+	information = scrapy.Field()
+>>>>>>> 38d197371eb5b45637dd42c842bdbd9cdc731079

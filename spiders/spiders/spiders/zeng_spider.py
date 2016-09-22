@@ -10,6 +10,7 @@ database_noblog = ['url', 'chinese_name', 'english_name', 'used_name', 'nation',
 database_withblog = ['url', 'chinese_name', 'english_name', 'used_name', 'nation', 'location', 'birthday', 'birthplace', 'height', 'weight', 'bloodType', 'constellation', 'graduateSchool', 'profession', 'company', 'representative', 'microblog' ,'relatedStar']
 features = ['length','height','weight','life','feeding','breed','habit','location']
 fenlei = ['jie','men','gang','mu','ke','shu','zhong']
+<<<<<<< HEAD
 download = 'E:/qihao/download_test/'
 
 class TestSpider(scrapy.Spider):
@@ -146,6 +147,78 @@ class TestSpider(scrapy.Spider):
 		# 		item['livingCondition'] = description[x].getText()
 		# 	if title[x].getText() == 'Introduction':
 		# 		item['englisIntroduction'] = description[x].getText()
+=======
+class TestSpider(scrapy.Spider):
+	name = "test"
+
+	start_urls = ["http://www.iltaw.com/animal/385"]
+
+	def parse(self, response):
+		soup = BeautifulSoup(response.body_as_unicode(),"lxml")
+		
+		# _properties = re.split(u'<br/>|：', str(soup.find(class_='property')))
+		# print len(_properties)
+		# # for x in _properties:
+		# for x in xrange(7):
+		# 	# print x
+		# 	print _properties[x].split(u'：')[0].split()[0]
+		# 	print _properties[x].split(u'：')[1].split()[0] + '\n'
+		# 	print _properties[x]
+			# print re.split(u'：|）',_properties[x])[0].split()[0]
+			# print re.split(u'：|）',_properties[x])[1].split()[0] + '\n'
+
+
+		inner_wrap = soup.find(class_='intro-inner-wrap')
+		left_wrap = inner_wrap.find(class_='left-wrap')
+		lines = str(left_wrap).decode('utf-8').split('<br/>')
+		line1 = lines[0].replace('<strong>','').replace('</strong>','').replace('<em>','').replace('</em>','').split(u'：')
+		line2 = lines[1].replace('<strong>','').replace('</strong>','').replace('<em>','').replace('</em>','').split(u'：')
+		line3 = lines[2].replace('<strong>','').replace('</strong>','').replace('<em>','').replace('</em>','').split(u'：')
+		line4 = lines[3].replace('<strong>','').replace('</strong>','').replace('<em>','').replace('</em>','')
+		print line1[1].split(u'（')[0]
+		print line1[2].split(u'）')[0]
+		print line2[1]
+		print line3[1]
+		print line4
+		# summary = re.split(u'；|。',left_wrap.getText())
+		# for summ in  summary:
+		# 	print summ
+		# # print re.split(u'：|（|）',summary[0])[1]
+		# print re.split(u'：|（|）',summary[0])[3]
+		# print re.split(u'：|（|）',summary[1])[1]
+		# print re.split(u'：|（|）',summary[2])[1]
+		# print '。'.join(summary[3:])
+
+
+		right_wrap = inner_wrap.find(class_='right-wrap')
+		details = right_wrap.find_all('p')
+		for index,detail in enumerate(details):
+			if detail.find('span'):
+				print features[index] , detail.find('span').getText()
+			else:
+				print features[index] , u''
+
+		info = soup.find(class_='info-inner-wrap').find(class_='left-wrap')
+		title = info.find_all('span')
+		description = info.find_all(class_='description')
+		for x in xrange(len(title)):
+			if title[x].getText() == 'Description':
+				item['description'] = description[x].getText()
+			if title[x].getText() == 'Ecological Habit':
+				item['ecologicalHabit'] = description[x].getText()
+			if title[x].getText() == 'Growth and Breed':
+				item['growthBreed'] = description[x].getText()
+			if title[x].getText() == 'Subspecies and Taxonomy':
+				item['subspeciesTaxonomy'] = description[x].getText()
+			if title[x].getText() == 'Knowledge':
+				item['knowledge'] = description[x].getText()
+			if title[x].getText() == 'Distribution':
+				item['distribution'] = description[x].getText()
+			if title[x].getText() == 'Living Condition':
+				item['livingCondition'] = description[x].getText()
+			if title[x].getText() == 'Introduction':
+				item['englisIntroduction'] = description[x].getText()
+>>>>>>> 38d197371eb5b45637dd42c842bdbd9cdc731079
 		# for x in xrange(len(title)):
 		# 	if title[x].getText() == 'Description':
 		# 		print description[x].getText()
@@ -165,7 +238,11 @@ class TestSpider(scrapy.Spider):
 			# 	item['englisIntroduction'] = description[x].getText()
 
 
+<<<<<<< HEAD
 		# 明星
+=======
+
+>>>>>>> 38d197371eb5b45637dd42c842bdbd9cdc731079
 		# "http://www.ijq.tv/mingxing/14664762343661.html"
 		# soup = BeautifulSoup(response.body_as_unicode(),"lxml")
 		# details = soup.find(id='v-details-list').find_all('p')

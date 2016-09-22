@@ -15,5 +15,5 @@ DOWNLOADER_MIDDLEWARES = {
 }
 
 ITEM_PIPELINES = {
-	'SinaSpider.pipelines.MySQLPipeline': 300,
+	# 'SinaSpider.pipelines.MySQLPipeline': 300,
 }

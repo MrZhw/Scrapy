@@ -18,6 +18,57 @@ class SpidersPipeline(object):
 	def process_item(self, item, spider):
 		return item 	
 
+class PlantNamesPipeline(object):
+	"""docstring for ChengyuPipeline"""
+	def __init__(self):
+		self.dbpool = adbapi.ConnectionPool('MySQLdb',
+			db='knowledgebase',
+			user='root',
+			passwd='mysql',
+			cursorclass = MySQLdb.cursors.DictCursor,
+			charset = 'utf8',
+			use_unicode = True
+		)
+	
+	def process_item(self, item, spider):
+		query = self.dbpool.runInteraction(self._conditional_insert, item)
+		query.addErrback(self.handle_error)
+		return item
+
+	def _conditional_insert(self, tx, item):
+		sql = "insert into plantnames(url,latin_name,chinese_name,nomenclator,location,description) values (%s, %s, %s, %s, %s, %s)"
+		tx.execute(sql, (item['url'],item['latin_name'],item['chinese_name'],item['nomenclator'],item['location'],item['description']))
+
+	#异常处理
+	def handle_error(self, failure):
+		logging.error(failure)
+
+
+class PlantPipeline(object):
+	"""docstring for ChengyuPipeline"""
+	def __init__(self):
+		self.dbpool = adbapi.ConnectionPool('MySQLdb',
+			db='knowledgebase',
+			user='root',
+			passwd='mysql',
+			cursorclass = MySQLdb.cursors.DictCursor,
+			charset = 'utf8',
+			use_unicode = True
+		)
+	
+	def process_item(self, item, spider):
+		query = self.dbpool.runInteraction(self._conditional_insert, item)
+		query.addErrback(self.handle_error)
+		return item
+
+	def _conditional_insert(self, tx, item):
+		sql = "insert into plant(url,category,chinese_name,english_name,scientific_name,other_name,location,nomenclator,introduction) values (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+		tx.execute(sql, (item['url'],item['category'],item['chinese_name'],item['english_name'],item['scientific_name'],item['other_name'],item['location'],item['nomenclator'],item['introduction']))
+
+	#异常处理
+	def handle_error(self, failure):
+		logging.error(failure)
+
 class ZimuFilesPipeline(FilesPipeline):
 	# def file_path(self, request, response=None, info=None):
 		# file_guid = request.url.split('/')[-1]
@@ -34,6 +85,9 @@ class ZimuFilesPipeline(FilesPipeline):
 		if not file_paths:
 			raise DropItem("Item contains no files")
 		item['file_paths'] = file_paths
+		if item['files']:
+			newname = item['files'] + '.zip'
+		os.rename("/full/" + file_paths[0], "/full/" + newname)
 		return item
 	
 		

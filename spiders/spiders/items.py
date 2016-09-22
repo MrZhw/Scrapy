@@ -83,7 +83,27 @@ class AnimalSpidersItem(scrapy.Item):
 	englishIntroduction = scrapy.Field()
 	information = scrapy.Field()
 
+class PlantSpidersItem(scrapy.Item):
+	url = scrapy.Field()
+	category = scrapy.Field()
+	chinese_name = scrapy.Field()
+	english_name = scrapy.Field()
+	scientific_name = scrapy.Field()
+	other_name = scrapy.Field()
+	location = scrapy.Field()
+	nomenclator = scrapy.Field()
+	introduction = scrapy.Field()
+
+class PlantNamesSpidersItem(scrapy.Item):
+	url = scrapy.Field()
+	chinese_name = scrapy.Field()
+	latin_name = scrapy.Field()
+	location = scrapy.Field()
+	nomenclator = scrapy.Field()
+	description = scrapy.Field()
+		
+
 class ZimuSpidersItem(scrapy.Item):
 	file_urls = scrapy.Field()
-	file_names = scrapy.Field()
+	files = scrapy.Field()
 	file_paths = scrapy.Field()

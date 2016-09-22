@@ -3,7 +3,8 @@ import os,sys
 import re
 import scrapy
 from bs4 import BeautifulSoup
-from spiders.items import ZimuSpidersItem
+from scrapy.selector import Selector
+from scrapy.http import HtmlResponse
 t = open('test.txt','w')
 database_noblog = ['url', 'chinese_name', 'english_name', 'used_name', 'nation', 'location', 'birthday', 'birthplace', 'height', 'weight', 'bloodType', 'constellation', 'graduateSchool', 'profession', 'company', 'representative', 'relatedStar']
 database_withblog = ['url', 'chinese_name', 'english_name', 'used_name', 'nation', 'location', 'birthday', 'birthplace', 'height', 'weight', 'bloodType', 'constellation', 'graduateSchool', 'profession', 'company', 'representative', 'microblog' ,'relatedStar']
@@ -14,20 +15,71 @@ download = 'E:/qihao/download_test/'
 class TestSpider(scrapy.Spider):
 	name = "test"
 
-	start_urls = ["http://www.zimuzu.tv/subtitle/49200","http://www.zimuzu.tv/subtitle/49458"]
+	start_urls = ["http://www.61ertong.com/wenxue/jingxiangushi/20160901/260770.html"]
 
 	def parse(self, response):
 		soup = BeautifulSoup(response.body_as_unicode(),"lxml")
-		srt_name = soup.find(class_='subtitle-links').find('a').getText()
-		srt_url = soup.find(class_='subtitle-links').find('a').get('href')
-		item = ZimuSpidersItem()
-		file_urls = []
-		file_names = []
-		file_urls.append(srt_url)
-		file_names.append(srt_name)
-		item['file_names'] = file_names
-		item['file_urls'] = file_urls
-		return item
+		content = soup.find(class_="content")
+		cnt = str(content).split('<div class="dede_pages">')[0]
+		cnt = re.sub('<p>|</p>|<div class="content">|\n|　| ', '', cnt)
+		t.write(cnt)
+
+	# 中国植物主题网
+	# start_urls = ['http://www.plant.csdb.cn/taxonpage?sname=Phellodendron chinense']
+
+	# def parse(self,response):
+	# 	soup = BeautifulSoup(response.body_as_unicode(),"lxml")
+	# 	contents = soup.find(id='quicktabs_container_')
+	# 	#print response.body
+	# 	t.write(response.body)
+	# 	content = soup.find_all(class_='quicktabs_tabpage')
+	# 	lines = str(content[0]).decode('utf-8').split('<br/>')
+	# 	description = lines[2].split('</b>')[1].replace(u'：','').replace('\xc2\xa0',' ').replace(u'　',' ').replace('\n',' ')
+	# 	description = re.sub(r' +', ' ', description)
+	# 	print "description = ", description
+
+		# for line in lines:
+		# 	if '<b>' in line:
+		# 		temp = line.replace('<b>','').split('</b>')
+		# 		#print 'line0 = ', temp[0], 'line1 = ', temp[1].replace(u'：','')
+		# 		if temp[0] == u'形态描述':
+		# 			print temp[1].replace(u'：','').replace('\xc2\xa0',' ').replace(u'　',' ')
+
+	# 百科植物
+	# #start_urls = ["http://www.xiangsheng.org/thread-34064-1-9.html"]
+	# def start_requests(self):
+	# 	return [
+	# 		scrapy.FormRequest(
+	# 			'http://baike.baidu.com/search/word',
+	# 			formdata = {
+	# 				'word':'秋兰'
+	# 			},
+	# 			callback=self.parse_baike
+	# 			)
+	# 	]
+
+	# def parse_baike(self, response):
+	# 	divs = response.xpath('//div[contains(@class, "para-title level-2")]')
+	# 	#div = response.xpath(divs[0] + div)
+	# 	t.write(divs[0].extract())
+
+
+
+
+
+		# 字幕下载
+		# http://www.zimuzu.tv/subtitle/49200
+		# soup = BeautifulSoup(response.body_as_unicode(),"lxml")
+		# srt_name = soup.find(class_='subtitle-links').find('a').getText()
+		# srt_url = soup.find(class_='subtitle-links').find('a').get('href')
+		# item = ZimuSpidersItem()
+		# file_urls = []
+		# file_names = []
+		# file_urls.append(srt_url)
+		# file_names.append(srt_name)
+		# item['files'] = srt_name
+		# item['file_urls'] = file_urls
+		# return item
 
 
 

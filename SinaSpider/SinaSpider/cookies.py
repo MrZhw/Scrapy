@@ -9,7 +9,6 @@ import requests
 或者你也可以把时间间隔调大点。
 """
 myWeiBo = [
-	# {'no': 'jiadieyuso3319@163.com', 'psw': 'a123456'},
 	{'no': 'shudieful3618@163.com', 'psw': 'a123456'},
 	{'no': 'lizhanyang0110', 'psw': '8698331'},
 	{'no': 'lizetian567@sina.com', 'psw': 'cqmyg123'},
@@ -22,7 +21,29 @@ myWeiBo = [
 	{'no': 'lizhenlz@sina.com', 'psw': '33850132'},
 	{'no': 'lizqchina235', 'psw': '235888'},
 	{'no': 'lj050530', 'psw': '19851008'},
-	{'no': 'ljb1098', 'psw': 'puzzle'}
+	{'no': 'ljb1098', 'psw': 'puzzle'},
+	{'no': 'zhangli13665106422@163.com', 'psw': '726328'},
+	{'no': 'tianyaoxi@sina.com', 'psw': '680418'},
+	{'no': 'christineblue', 'psw': 'xiaozhou'},
+	{'no': 'WOWCC@QQ.COM', 'psw': 'c123456'},
+	{'no': 'waweijie@sina.com', 'psw': '5811051'},
+	{'no': 'yangxb3561622@sina.com', 'psw': '3561622'},
+	{'no': 'zgah0525@sina.com', 'psw': '525430'},
+	{'no': 'cm2wzm', 'psw': '161669266'},
+	{'no': '331896523@qq.com', 'psw': '7788521'},
+	{'no': '469598052@qq.com', 'psw': 'a870327ooo'},
+	{'no': '21092322@qq.com', 'psw': '52801415'},
+	{'no': 'eilleen109', 'psw': '321109'},
+	{'no': 'yluckybb', 'psw': '781202'},
+	{'no': 'dawen0112@qq.com', 'psw': 'wenwen520'},
+	{'no': '370619316@qq.com', 'psw': '3243136'},
+	{'no': 'cctvxiaohao@sina.com', 'psw': '790426'},
+	{'no': 'qintian@vip.qq.com', 'psw': '35527601'},
+	{'no': 'cqdzlxl@163.com', 'psw': '111111'},
+	{'no': 'weiyi20042004@tom.com', 'psw': '252071838'},
+	{'no': 'dhy73122898@sina.com', 'psw': '114411'},
+	{'no': 'fanbenchu941022@sina.com', 'psw': '19941022'},
+	{'no': 'lcfkissyou20@126.com', 'psw': 'fuckyou20'}
 ]
 
 

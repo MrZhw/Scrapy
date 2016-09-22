@@ -42,13 +42,13 @@ class Spider(scrapy.Spider):
 			_id = tweet.get("id")
 			content = tweet.find(class_='ctt')
 			comment = re.findall(u'\u8bc4\u8bba\[(\d+)\]', tweet.getText())  # 评论数
-			if content and int(Comment[0]) > 0:
+			if content and comment and int(comment[0]) > 0:
 				content = content.getText().strip(u"[\u7ec4\u56fe\u5171(\d+)\u5f20]")  # 去掉最后的"[组图共x张]"
 				commentUrls = tweet.find_all(class_="cc")
 				if commentUrls:
 					for commentUrl in commentUrls:
 						temp = response.meta["ID"] + "-" + _id
-						f = open("E:/qihao/data/sina/" + temp, 'a')
+						f = open("./sina/" + temp, 'a')
 						f.write("<Tweet>\n" + content + "\n")
 						yield scrapy.Request(url=commentUrl.get('href'), meta={"file": f}, callback=self.parse_comment)
 
@@ -62,17 +62,11 @@ class Spider(scrapy.Spider):
 		soup = BeautifulSoup(response.body_as_unicode(),"lxml")
 		comments = soup.find_all(class_='c', id=re.compile('C_(.*)'))
 		f = response.meta["file"]
-
 		for comment in comments:
-			commentItem = CommentItem()
-			_id = comment.get('id')
-			commentItem['ID'] = response.meta['ID']
-			commentItem['_id'] = response.meta['ID'] + '-' + _id
 			cnt = comment.find(class_='ctt')
-
 			if cnt:
 				cnt = re.compile(u'回复@(.*):').sub('', cnt.getText())
-				f.write("<comment>\n" + cnt + "</comment>\n") 			# 评论内容
+				f.write("<comment>\n" + cnt + "\n</comment>\n") 			# 评论内容
 
 		nextPage = soup.find(id='pagelist')
 		if nextPage:

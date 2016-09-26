@@ -4,6 +4,7 @@ import re
 import scrapy
 from bs4 import BeautifulSoup
 import urllib
+import hashlib
 reload(sys)
 sys.setdefaultencoding('utf-8')
 f = open("chinese_english.txt", 'a')
@@ -12,7 +13,13 @@ cnt = 0
 class YuerSpider(scrapy.Spider):
 	name = "yuerPair"
 	allowed_domains = ["yuer.hujiang.com"]
-	start_urls = ["http://yuer.hujiang.com/yeyingyu/yygs/p320282/page2/"]
+	start_urls = ["http://yuer.hujiang.com/yeyingyu/yygs/page1/"]
+
+	finished_url = set()
+	m = hashlib.md5()
+	m.update("http://yuer.hujiang.com/yeyingyu/yygs/page1/")
+	finished_url.add(m.hexdigest())
+
 	def parse(self, response):
 		global cnt
 		soup = BeautifulSoup(response.body_as_unicode(),"lxml")
@@ -35,4 +42,8 @@ class YuerSpider(scrapy.Spider):
 				if "http" not in url:
 					url = "http://yuer.hujiang.com" + url
 				print 'url = ', url
-				yield scrapy.Request(url,callback=self.parse)
+				m2 = hashlib.md5()
+				m2.update(url)
+				if m2.hexdigest() not in self.finished_url:
+					self.finished_url.add(m2.hexdigest())
+					yield scrapy.Request(url,callback=self.parse)
